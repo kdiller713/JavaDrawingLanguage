@@ -1,5 +1,11 @@
+import ui.IDE;
+
+import parser.CommandParser;
+
+import java.util.HashMap;
+
 public class Application{
     public static void main(String[] args){
-        System.out.println("Hello, world");
+        IDE ide = IDE.createAndDisplayUI(new HashMap<String, CommandParser>());
     }
 }

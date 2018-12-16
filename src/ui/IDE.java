@@ -32,6 +32,7 @@ public class IDE extends JFrame implements ButtonInterface {
             SwingUtilities.invokeAndWait(() -> {ref.ref = new IDE(parsers);});
         }catch(Exception e){
             System.err.println("Error creating UI: " + e.getMessage());
+            e.printStackTrace();
         }
         
         return ref.ref;

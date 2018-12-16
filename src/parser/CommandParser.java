@@ -1,3 +1,5 @@
+package parser;
+
 import command.DrawCommand;
 
 import java.util.List;

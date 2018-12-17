@@ -8,6 +8,8 @@ import java.awt.Graphics;
  * implementation for both methods.
  */
 public interface DrawCommand {
+    public DrawCommand makeCommand(String[] params);
+
     public void draw2D(Graphics g); 
     
     // Do not know what the type signature of the 3D method is

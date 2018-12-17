@@ -13,16 +13,16 @@ public class RunPanel extends JPanel {
     private JComboBox<Object> parsers;
 
     public RunPanel(Set<String> parsers, ButtonInterface actions){
+        this.parsers = new JComboBox<Object>(parsers.toArray());
+        
         run = new JButton("Run");
-        run.addActionListener((event) -> {actions.run(this.parsers.getSelectedItem().toString());});
+        run.addActionListener((event) -> {actions.run("" + this.parsers.getSelectedItem());});
         
         open = new JButton("Open");
         open.addActionListener((event) -> {actions.open();});
         
         save = new JButton("Save");
         save.addActionListener((event) -> {actions.save();});
-        
-        this.parsers = new JComboBox<Object>(parsers.toArray());
         
         this.setLayout(new FlowLayout());
         

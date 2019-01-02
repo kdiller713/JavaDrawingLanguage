@@ -1,7 +1,5 @@
 package parser.parse2D;
 
-import parser.CommandParser;
-
 import command.DrawCommand;
 import command.command2D.Draw2DCommand;
 
@@ -9,7 +7,7 @@ import java.util.List;
 import java.util.LinkedList;
 
 // Expects lines to be <cmd>(<params>)
-public class SimpleParser implements CommandParser {
+public class SimpleParser extends CommandParser2D {
     public List<DrawCommand> parseCommands(String program){
         String[] lines = program.split("\n");
         

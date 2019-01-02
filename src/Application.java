@@ -8,7 +8,7 @@ import java.util.HashMap;
 public class Application{
     public static void main(String[] args){
         HashMap<String, CommandParser> parsers = new HashMap<String, CommandParser>();
-        parsers.put("Simple", new SimpleParser());
+        parsers.put("Simple 2D", new SimpleParser());
         
         IDE ide = IDE.createAndDisplayUI(parsers);
     }

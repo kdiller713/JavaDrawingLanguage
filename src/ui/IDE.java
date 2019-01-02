@@ -10,6 +10,9 @@ import java.util.List;
 import ui.panels.RunPanel;
 import ui.panels.RunPanel.ButtonInterface;
 
+import ui.frames.DrawFrame;
+import ui.frames.DrawFrame2D;
+
 import java.awt.BorderLayout;
 
 import javax.swing.SwingUtilities;
@@ -23,7 +26,7 @@ public class IDE extends JFrame implements ButtonInterface {
 
     private JTextArea codePanel;
     private RunPanel runPanel;
-    private DrawFrame displayFrame;
+    private DrawFrame displayFrame2D;
     
     private static class IDERef {
         public IDE ref;
@@ -50,7 +53,7 @@ public class IDE extends JFrame implements ButtonInterface {
         super("Java Drawing Language");
         this.parsers = parsers;
         
-        displayFrame = DrawFrame.createUI();
+        displayFrame2D = DrawFrame2D.createUI();
         
         runPanel = new RunPanel(parsers.keySet(), this);
         codePanel = new JTextArea(50, 80);
@@ -69,10 +72,16 @@ public class IDE extends JFrame implements ButtonInterface {
     
     public void run(String parserName){
         try{
-            displayFrame.close();
+            displayFrame2D.close();
+            CommandParser parser = parsers.get(parserName);
             
-            List<DrawCommand> cmds = parsers.get(parserName).parseCommands(codePanel.getText());
-            displayFrame.displayCommands(cmds);
+            List<DrawCommand> cmds = parser.parseCommands(codePanel.getText());
+            
+            if(parser.is2D()){
+                displayFrame2D.displayCommands(cmds);
+            }else{
+                // Add the 3D draw frame
+            }
         }catch(Exception e){
             JOptionPane.showMessageDialog(this, "Error: " + e.getMessage(), "Error Running", JOptionPane.ERROR_MESSAGE);
         }

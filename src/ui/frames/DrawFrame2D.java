@@ -1,4 +1,4 @@
-package ui;
+package ui.frames;
 
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
@@ -11,22 +11,22 @@ import java.util.List;
 import command.DrawCommand;
 
 // This will be used inplace of a panel next to it
-public class DrawFrame extends JPanel {
+public class DrawFrame2D extends JPanel implements DrawFrame {
     private List<DrawCommand> drawCommands;
     private JFrame frame;
 
     private static class DrawFrameRef {
-        public DrawFrame ref;
+        public DrawFrame2D ref;
     }
     
-    public static DrawFrame createUI(){
+    public static DrawFrame2D createUI(){
         if(SwingUtilities.isEventDispatchThread()){
-            return new DrawFrame();
+            return new DrawFrame2D();
         }else{
             final DrawFrameRef ref = new DrawFrameRef();
             
             try{
-                SwingUtilities.invokeAndWait(() -> {ref.ref = new DrawFrame();});
+                SwingUtilities.invokeAndWait(() -> {ref.ref = new DrawFrame2D();});
             }catch(Exception e){
                 System.err.println("Error creating DrawFrame: " + e.getMessage());
                 e.printStackTrace();
@@ -36,7 +36,7 @@ public class DrawFrame extends JPanel {
         }
     }
     
-    public DrawFrame(){
+    public DrawFrame2D(){
         frame = new JFrame("Graphics Display");
         
         frame.setSize(750, 750);

@@ -6,6 +6,10 @@ import command.DrawCommand;
 
 import java.util.Map;
 import java.util.List;
+import java.util.Scanner;
+
+import java.io.File;
+import java.io.FileWriter;
 
 import ui.panels.RunPanel;
 import ui.panels.RunPanel.ButtonInterface;
@@ -20,6 +24,7 @@ import javax.swing.JFrame;
 import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
 import javax.swing.JOptionPane;
+import javax.swing.JFileChooser;
 
 public class IDE extends JFrame implements ButtonInterface {
     private Map<String, CommandParser> parsers;
@@ -27,6 +32,7 @@ public class IDE extends JFrame implements ButtonInterface {
     private JTextArea codePanel;
     private RunPanel runPanel;
     private DrawFrame displayFrame2D;
+    private JFileChooser fileChooser;
     
     private static class IDERef {
         public IDE ref;
@@ -66,6 +72,32 @@ public class IDE extends JFrame implements ButtonInterface {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.pack();
         this.setVisible(true);
+        
+        fileChooser = new JFileChooser();
+        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        fileChooser.setMultiSelectionEnabled(false);
+    }
+    
+    public void openFile(String fileName) {
+        try{
+            Scanner sc = new Scanner(new File(fileName));
+            final StringBuilder str = new StringBuilder();
+            
+            boolean first = true;
+            
+            while(sc.hasNextLine()){
+                if(!first) str.append("\n");
+            
+                str.append(sc.nextLine());
+                first = false;
+            }
+            
+            sc.close();
+            
+            SwingUtilities.invokeLater(() -> {codePanel.setText(str.toString());});
+        }catch(Exception e){
+            
+        }
     }
     
     /* Methods implemented from the ButtonInterface */
@@ -88,10 +120,27 @@ public class IDE extends JFrame implements ButtonInterface {
     }
     
     public void open(){
-    
+        int choice = fileChooser.showOpenDialog(this);
+        
+        if(choice != JFileChooser.APPROVE_OPTION) return;
+        
+        File f = fileChooser.getSelectedFile();
+        openFile(f.toString());
     }
     
     public void save(){
-    
+        int choice = fileChooser.showSaveDialog(this);
+        
+        if(choice != JFileChooser.APPROVE_OPTION) return;
+        
+        File f = fileChooser.getSelectedFile();
+        
+        try{
+            FileWriter os = new FileWriter(f);
+            os.write(codePanel.getText());
+            os.close();
+        }catch(Exception e){
+        
+        }
     }
 }

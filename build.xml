@@ -18,4 +18,8 @@
         </jar>
     </target>
 
+    <target name="run" depends="jar">
+        <java jar="JDL.jar" fork="true" />
+    </target>
+    
 </project>

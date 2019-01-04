@@ -11,5 +11,9 @@ public class Application{
         parsers.put("Simple 2D", new SimpleParser());
         
         IDE ide = IDE.createAndDisplayUI(parsers);
+        
+        if(args.length > 0){
+            ide.openFile(args[0]);
+        }
     }
 }

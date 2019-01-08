@@ -7,7 +7,9 @@
 
     <target name="compile" depends="clean">
         <mkdir dir="bin"/>
-        <javac srcdir="src" destdir="bin"/>
+        <javac srcdir="src" destdir="bin">
+            <classpath refid="build.classpath" />
+        </javac>
     </target>
 
     <target name="jar" depends="compile">
@@ -15,11 +17,19 @@
             <manifest>
                 <attribute name="Main-Class" value="Application"/>
             </manifest>
+            <zipgroupfileset dir="JarFiles" includes="**/*.jar" />
         </jar>
     </target>
 
     <target name="run" depends="jar">
-        <java jar="JDL.jar" fork="true" />
+        <java jar="JDL.jar" fork="true">
+            <sysproperty key="java.library.path" path="./lib"/>
+        </java>
     </target>
-    
+
+    <path id="build.classpath">
+        <fileset dir="JarFiles">
+            <include name="**/*.jar"/>
+        </fileset>
+    </path>
 </project>

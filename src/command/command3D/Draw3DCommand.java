@@ -1,4 +1,4 @@
-package command.command2D;
+package command.command3D;
 
 import command.DrawCommand;
 
@@ -7,14 +7,14 @@ import java.util.HashMap;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 
-import simple3D.Viewer;
+import java.awt.Graphics;
 
-public abstract class Draw2DCommand implements DrawCommand {
+public abstract class Draw3DCommand implements DrawCommand {
     public static DrawCommand getCommand(String name, String[] params){
         Class<?> tmp = null;
     
         try{
-            tmp = Class.forName("command.command2D." + name + "Command");
+            tmp = Class.forName("command.command3D." + name + "Command");
         }catch(Exception e){
             throw new RuntimeException("Failed to find the command \"" + name + "\"");
         }
@@ -41,7 +41,7 @@ public abstract class Draw2DCommand implements DrawCommand {
         return d;
     }
     
-    public void draw3D(Viewer v){
-        throw new RuntimeException("This does not do 3D");
+    public void draw2D(Graphics g){
+        throw new RuntimeException("This object does not do 2D");
     }
 }

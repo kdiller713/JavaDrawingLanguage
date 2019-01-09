@@ -7,10 +7,8 @@ import command.DrawCommand;
 public class LineCommand extends Draw2DCommand {
     private int x1, y1, x2, y2;
     
-    public LineCommand(){
-        this(0, 0, 0, 0);
-        commands.put("line", this);
-    }
+    // This is for the reflection to work
+    public LineCommand(){}
     
     public LineCommand(int x1, int y1, int x2, int y2){
         this.x1 = x1;

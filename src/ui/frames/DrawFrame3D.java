@@ -36,20 +36,29 @@ public class DrawFrame3D implements DrawFrame {
     }
     
     public DrawFrame3D(){
-        viewer = new Viewer();
-        viewer.addMove();
-        viewer.addZoom();
-        viewer.addRotate();
-    
         frame = new JFrame("3D Graphics Display");
         
         frame.setSize(750, 750);
         frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-        frame.add(viewer);
+        
+        resetViewer();
     }
     
     public void close(){
         frame.setVisible(false);
+        resetViewer();
+    }
+    
+    private void resetViewer(){
+        // Reset the view
+        if(viewer != null)
+            frame.remove(viewer);
+        
+        viewer = new Viewer();
+        viewer.addMove();
+        viewer.addZoom();
+        viewer.addRotate();
+        frame.add(viewer);
     }
     
     public void displayCommands(List<DrawCommand> cmds){

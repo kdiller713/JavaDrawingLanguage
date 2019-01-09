@@ -7,10 +7,8 @@ import command.DrawCommand;
 public class CircleCommand extends Draw2DCommand {
     private int x, y, r;
     
-    public CircleCommand(){
-        this(0, 0, 0);
-        commands.put("circle", this);
-    }
+    // This is for the reflection to work
+    public CircleCommand(){}
     
     public CircleCommand(int x, int y, int r){
         this.x = x;

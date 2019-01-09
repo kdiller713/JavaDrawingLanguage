@@ -8,10 +8,8 @@ import command.DrawCommand;
 public class ColorCommand extends Draw2DCommand {
     private int r, g, b;
     
-    public ColorCommand(){
-        this(0, 0, 0);
-        commands.put("color", this);
-    }
+    // This is for the reflection to work
+    public ColorCommand(){}
     
     public ColorCommand(int r, int g, int b){
         this.r = r;

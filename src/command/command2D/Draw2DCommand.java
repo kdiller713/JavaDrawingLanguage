@@ -4,25 +4,42 @@ import command.DrawCommand;
 
 import java.util.HashMap;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
+
+import simple3D.Viewer;
+
 public abstract class Draw2DCommand implements DrawCommand {
-    // Map from command name to command representation
-    protected static HashMap<String, Draw2DCommand> commands;
-    
-    static{
-        commands = new HashMap<String, Draw2DCommand>();
-        
-        new LineCommand();
-        new CircleCommand();
-        new ColorCommand();
-    }
-    
     public static DrawCommand getCommand(String name, String[] params){
-        if(commands.containsKey(name)){
-            return commands.get(name).makeCommand(params);
-        }else{
-            throw new RuntimeException("No command found named \"" + name + "\"");
+        Class<?> tmp = null;
+    
+        try{
+            tmp = Class.forName("command.command2D." + name + "Command");
+        }catch(Exception e){
+            throw new RuntimeException("Failed to find the command \"" + name + "\"");
         }
+        
+        Constructor<?> c = null;
+        Method m = null;
+        
+        try{
+            c = tmp.getConstructor();
+            m = tmp.getMethod("makeCommand", String[].class);
+        }catch(Exception e){
+            throw new RuntimeException("Failed to find the constructor: " + e.getMessage());
+        }
+        
+        DrawCommand d = null;
+        
+        try{
+            DrawCommand inst = DrawCommand.class.cast(c.newInstance());
+            d = DrawCommand.class.cast(m.invoke(inst, new Object[]{params}));
+        }catch(Exception e){
+            throw new RuntimeException("Failed to create the command: " + e.getMessage());
+        }
+        
+        return d;
     }
     
-    // Default implementation of 3D command
+    public void draw3D(Viewer v){}
 }

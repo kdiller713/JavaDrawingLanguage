@@ -2,31 +2,30 @@ package ui.frames;
 
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
-import javax.swing.JPanel;
-
-import java.awt.Graphics;
 
 import java.util.List;
 
 import command.DrawCommand;
 
+import simple3D.Viewer;
+
 // This will be used inplace of a panel next to it
-public class DrawFrame2D extends JPanel implements DrawFrame {
-    private List<DrawCommand> drawCommands;
+public class DrawFrame3D implements DrawFrame {
     private JFrame frame;
+    private Viewer viewer;
 
     private static class DrawFrameRef {
-        public DrawFrame2D ref;
+        public DrawFrame3D ref;
     }
     
-    public static DrawFrame2D createUI(){
+    public static DrawFrame3D createUI(){
         if(SwingUtilities.isEventDispatchThread()){
-            return new DrawFrame2D();
+            return new DrawFrame3D();
         }else{
             final DrawFrameRef ref = new DrawFrameRef();
             
             try{
-                SwingUtilities.invokeAndWait(() -> {ref.ref = new DrawFrame2D();});
+                SwingUtilities.invokeAndWait(() -> {ref.ref = new DrawFrame3D();});
             }catch(Exception e){
                 System.err.println("Error creating DrawFrame: " + e.getMessage());
                 e.printStackTrace();
@@ -36,12 +35,17 @@ public class DrawFrame2D extends JPanel implements DrawFrame {
         }
     }
     
-    public DrawFrame2D(){
-        frame = new JFrame("2D Graphics Display");
+    public DrawFrame3D(){
+        viewer = new Viewer();
+        viewer.addMove();
+        viewer.addZoom();
+        viewer.addRotate();
+    
+        frame = new JFrame("3D Graphics Display");
         
         frame.setSize(750, 750);
         frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-        frame.add(this);
+        frame.add(viewer);
     }
     
     public void close(){
@@ -49,16 +53,11 @@ public class DrawFrame2D extends JPanel implements DrawFrame {
     }
     
     public void displayCommands(List<DrawCommand> cmds){
-        drawCommands = cmds;
+        for(DrawCommand c : cmds){
+            c.draw3D(viewer);
+        }
+    
         frame.repaint();
         frame.setVisible(true);
-    }
-    
-    public void paintComponent(Graphics g){
-        g.clearRect(0, 0, this.getWidth(), this.getHeight());
-        
-        for(DrawCommand c : drawCommands){
-            c.draw2D(g);
-        }
     }
 }

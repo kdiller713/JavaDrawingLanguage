@@ -16,6 +16,7 @@ import ui.panels.RunPanel.ButtonInterface;
 
 import ui.frames.DrawFrame;
 import ui.frames.DrawFrame2D;
+import ui.frames.DrawFrame3D;
 
 import java.awt.BorderLayout;
 
@@ -31,7 +32,7 @@ public class IDE extends JFrame implements ButtonInterface {
 
     private JTextArea codePanel;
     private RunPanel runPanel;
-    private DrawFrame displayFrame2D;
+    private DrawFrame displayFrame2D, displayFrame3D;
     private JFileChooser fileChooser;
     
     private static class IDERef {
@@ -60,6 +61,7 @@ public class IDE extends JFrame implements ButtonInterface {
         this.parsers = parsers;
         
         displayFrame2D = DrawFrame2D.createUI();
+        displayFrame3D = DrawFrame3D.createUI();
         
         runPanel = new RunPanel(parsers.keySet(), this);
         codePanel = new JTextArea(50, 80);
@@ -105,6 +107,7 @@ public class IDE extends JFrame implements ButtonInterface {
     public void run(String parserName){
         try{
             displayFrame2D.close();
+            displayFrame3D.close();
             CommandParser parser = parsers.get(parserName);
             
             List<DrawCommand> cmds = parser.parseCommands(codePanel.getText());
@@ -112,7 +115,7 @@ public class IDE extends JFrame implements ButtonInterface {
             if(parser.is2D()){
                 displayFrame2D.displayCommands(cmds);
             }else{
-                // Add the 3D draw frame
+                displayFrame3D.displayCommands(cmds);
             }
         }catch(Exception e){
             JOptionPane.showMessageDialog(this, "Error: " + e.getMessage(), "Error Running", JOptionPane.ERROR_MESSAGE);
@@ -140,7 +143,8 @@ public class IDE extends JFrame implements ButtonInterface {
             os.write(codePanel.getText());
             os.close();
         }catch(Exception e){
-        
+            JOptionPane.showMessageDialog(this, "Error saving file", "Error Saving", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
         }
     }
 }

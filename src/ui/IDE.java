@@ -64,7 +64,7 @@ public class IDE extends JFrame implements ButtonInterface {
         displayFrame3D = DrawFrame3D.createUI();
         
         runPanel = new RunPanel(parsers.keySet(), this);
-        codePanel = new JTextArea(50, 80);
+        codePanel = new JTextArea();
         
         this.add(BorderLayout.SOUTH, runPanel);
         this.add(BorderLayout.CENTER, new JScrollPane(codePanel,
@@ -72,7 +72,7 @@ public class IDE extends JFrame implements ButtonInterface {
                 JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED));
                 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.pack();
+        this.setSize(750, 750);
         this.setVisible(true);
         
         fileChooser = new JFileChooser();

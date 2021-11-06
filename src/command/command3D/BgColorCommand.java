@@ -32,6 +32,6 @@ public class BgColorCommand extends Draw3DCommand {
     }
     
     public void draw3D(Viewer v){
-        v.setBackgroundColor(new Color(r, g, b));
+        v.setColor(new Color(r, g, b));
     }
 }
